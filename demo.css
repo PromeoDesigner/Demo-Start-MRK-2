@@ -1,0 +1,26 @@
+/* styles.css */
+
+/* Khai báo font Regular */
+@font-face {
+    font-family: 'SVN-Gotham';
+    src: url('fonts/SVN-Gotham Regular.woff2') format('woff2'), /* Nên dùng WOFF2 để tải nhanh hơn */
+         url('fonts/SVN-Gotham-Regular.woff') format('woff');
+    font-weight: 400; /* Độ đậm: Thường */
+    font-style: normal;
+    font-display: swap; /* Giúp văn bản hiển thị nhanh hơn trong khi font đang tải */
+}
+
+/* Khai báo font Bold (nếu có) */
+@font-face {
+    font-family: 'SVN-Gotham';
+    src: url('fonts/SVN-Gotham-Bold.woff2') format('woff2'),
+         url('fonts/SVN-Gotham-Bold.woff') format('woff');
+    font-weight: 700; /* Độ đậm: Đậm */
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Áp dụng font cho toàn bộ trang */
+body {
+    font-family: 'SVN-Gotham', sans-serif;
+}
