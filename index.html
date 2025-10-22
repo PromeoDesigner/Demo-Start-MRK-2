@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home-Start Marketing</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#41a3fff2',
+                        secondary: '#8B5CF6'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '4px',
+                        DEFAULT: '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        'full': '9999px',
+                        'button': '8px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .video-overlay {
+            background: linear-gradient(135deg, #3b82f6cc 0%, rgba(139, 92, 246, 0.8) 100%);
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+
+        .section-bg {
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .animate-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .process-step {
+            position: relative;
+        }
+
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 2rem;
+            height: 2px;
+            background: #e2e8f0;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .sticky-header {
+            backdrop-filter: blur(10px);
+            background: #41a3fff2;
+        }
+
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* ... Các CSS khác của bạn ... */
+
+        /* Keyframes cho chuyển động từ PHẢI sang TRÁI (Xuôi chiều) */
+        @keyframes marquee-rtl {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Keyframes cho chuyển động từ TRÁI sang PHẢI (Ngược chiều) */
+        @keyframes marquee-ltr {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .marquee-wrapper {
+            width: 200%;
+        }
+
+        /* Hàng 1: Chạy ngược chiều (LTR) - Tốc độ nhanh hơn: 30s */
+        .speed-1 {
+            animation: marquee-ltr 15s linear infinite;
+        }
+
+        /* Hàng 2: Chạy xuôi chiều (RTL) - Tốc độ nhanh hơn và khác biệt: 25s */
+        .speed-2 {
+            animation: marquee-rtl 13s linear infinite;
+        }
+
+        .marquee-wrapper:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-content {
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
+            /* Đảm bảo không có khoảng trắng thừa do flexbox/inline block */
+            line-height: 0;
+            /* Giảm khoảng cách giữa các hàng */
+            margin: 0 -0.5rem;
+            /* Bù trừ cho margin 0.5rem của logo-item */
+        }
+
+        /* Đảm bảo hình ảnh logo to hết cỡ */
+        .logo-item img {
+            max-width: 100%;
+            height: 7rem;
+            /* H-28 = 7rem */
+        }
+    </style>
+
+    <style>
+        /* ... Các CSS khác của bạn ... */
+
+        /* Custom CSS cho nút Hồ sơ năng lực */
+        .button-profile {
+            background-color: black;
+            color: white;
+            border: 2px solid rgb(46, 23, 252);
+            /* Màu đỏ tương tự nút "Tư vấn" */
+            padding: 0.75rem 1.5rem;
+            /* Tùy chỉnh padding nếu cần */
+            border-radius: 0.25rem;
+            /* bo góc nhẹ */
+            font-weight: 600;
+            /* semi-bold */
+            transition: all 0.3s ease;
+            /* Hiệu ứng chuyển động mượt */
+        }
+
+        .button-profile:hover {
+            background-color: rgb(46, 23, 252);
+            /* Nền đỏ khi hover */
+            color: white;
+            /* Chữ trắng khi hover */
+            border-color: rgb(46, 23, 252);
+            /* Viền đỏ khi hover */
+        }
+    </style>
+    <style>
+        /* ... Các CSS khác của bạn ... */
+
+        .text-gradient-blue-white {
+            /* Bắt buộc: Đặt màu nền gradient (xanh dương -> trắng) */
+            background-image: linear-gradient(to right, #3B82F6, #FFFFFF);
+
+            /* Cực kỳ quan trọng: Buộc gradient chỉ hiển thị bên trong văn bản */
+            -webkit-background-clip: text;
+
+            /* Bắt buộc: Làm cho màu văn bản trong suốt để gradient hiện ra */
+            -webkit-text-fill-color: transparent;
+
+            /* Cần thiết cho các trình duyệt không phải Webkit */
+            color: #3B82F6;
+            /* Màu dự phòng cho trình duyệt cũ */
+        }
+    </style>
+    </style>
+</head>
+
+<body class="bg-white text-gray-900">
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="images/logowhite.png" alt="Logo Start Marketing" class="h-8 w-auto">
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-white hover:text-primary transition-colors">Trang chủ</a>
+                    <div class="relative dropdown">
+                        <button class="flex items-center text-white hover:text-primary transition-colors">
+                            Dịch vụ
+                            <div class="w-4 h-4 flex items-center justify-center ml-1">
+                                <i class="ri-arrow-down-s-line text-sm text-white"></i>
+                            </div>
+                        </button>
+                        <div
+                            class="dropdown-menu absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Vận hành sàn
+                                Thương mại điện tử</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Social Media</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Booking
+                                KOL/KOC</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Chăm sóc, quản lí và thúc đẩy
+doanh thu Fanpage</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Cố vấn chiến lược kinh doanh 
+cho doanh nghiệp</a>
+                        </div>
+                    </div>
+                    <a href="#news" class="text-white hover:text-primary transition-colors">Tin tức</a>
+                    <a href="#about" class="text-white hover:text-primary transition-colors">Về chúng tôi</a>
+                </nav>
+
+                <!-- Language & CTA -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center bg-gray-100 rounded-full p-1">
+                        <button class="px-3 py-1 text-sm bg-primary text-white rounded-full">VI</button>
+                        <button class="px-3 py-1 text-sm text-gray-600">EN</button>
+                    </div>
+                    <button
+                        class="bg-blue-500 text-white px-6 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap">
+                        Liên hệ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Video -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    
+    <div class="absolute inset-0 w-full h-full">
+        <video 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            poster="images/Ảnh tập thể.jpg"
+            class="w-full h-full object-cover">
+            
+            <source src="images/videoplayback.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    <div class="relative z-10 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 text-white">
+        
+        </div>
+</section>
+    <!-- About Story -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Câu chuyện thương hiệu</h2>
+                <p class="text-xl text-gray-600">Khai phóng sự tăng trưởng của thương hiệu bằng tư duy chiến lược và sự
+                    sáng tạo</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in">
+                    <p class="text-lg text-gray-600 mb-6">
+                        Start Marketing là đơn vị đồng hành cùng doanh nghiệp trên hành trình xây dựng thương hiệu bền
+                        vững và phát triển doanh số thông qua giải pháp Marketing tổng thể và Thương mại điện tử.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8">
+                        Chúng tôi tin rằng mỗi thương hiệu đều có một câu chuyện đáng kể, và nhiệm vụ của Start
+                        Marketing là biến câu chuyện đó thành sức mạnh truyền thông, chạm đến đúng khách hàng, đúng thời
+                        điểm.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Với đội ngũ trẻ trung - chuyên môn cao - tư duy số mạnh mẽ, Start Marketing mang đến giải pháp
+                        chiến lược, sáng tạo và hiệu quả thực tiễn, giúp doanh nghiệp vững bước trên hành trình chuyển
+                        đổi số và mở rộng thị trường.
+                    </p>
+                    <button
+                        class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap">
+                        Xem thêm
+                    </button>
+                </div>
+                <div class="animate-fade-in">
+                    <img src="images/logo phái sinh.png" alt="About Us"
+                        class="w-full rounded-2xl shadow-lg object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievement Stats -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Thành tựu tiêu biểu</h2>
+                <p class="text-xl text-gray-600">Những con số ấn tượng trong hành trình phát triển</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 xl:grid-cols-7 gap-4">
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                        </div>
+                    <div class="counter text-4xl font-bold text-primary mb-2" data-target="3">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Năm Kinh nghiệm</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4 ">
+                    </div>
+                    <div class="counter text-4xl font-bold text-secondary mb-2" data-target="2">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Văn phòng</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4 ">
+
+                    </div>
+                    <div class="counter text-4xl font-bold text-green-600 mb-2" data-target="60">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Dự án</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4 ">
+                    </div>
+                    <div class="counter text-4xl font-bold text-yellow-600 mb-2" data-target="100">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Thương hiệu đồng hành</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    </div>
+                    <div class="counter text-4xl font-bold text-red-600 mb-2" data-target="86" data-unit="%">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Hiệu quả tài chính</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    </div>
+                    <div class="counter text-4xl font-bold text-indigo-600 mb-2" data-target="55" data-unit="%">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Hiệu quả Marketing</p>
+                </div>
+
+                <div class="text-center animate-fade-in">
+                    <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    </div>
+                    <div class="counter text-4xl font-bold text-pink-600 mb-2" data-target="100" data-unit="tr">0</div>
+                    <p class="text-sm text-gray-600 font-medium">Tổng GMV hằng tháng</p>
+                </div>
+
+    </section>
+
+    <!-- Featured Clients -->
+    <section class="py-20 text-white overflow-hidden bg-gray-900"
+        style="background-image: url('images/Templete\ \ 1-02.png'); background-size: cover; background-position: center;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-white-200">Khách Hàng Của Chúng Tôi</h2>
+                <p class="text-xl text-blue-300">Những thương hiệu đã tin tưởng đồng hành cùng chúng tôi</p>
+            </div>
+
+            <div class="space-y-8 py-4">
+
+                <div class="marquee-wrapper speed-1 flex flex-nowrap w-fit">
+                    <div class="flex flex-nowrap marquee-content">
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/BẮP Ú.png" alt="BắpÚ" class="h-14 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/DIEMNGUYEN.png" alt="DIEMNGUYEN"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/GUVI.png" alt="GUVI"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/GYEON.png" alt="GYEON"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/HALINHTHU.png" alt="Hải Linh Thú"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/KOKA.png" alt="KOKA"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/BẮP Ú.png" alt="BắpÚ" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/DIEMNGUYEN.png" alt="DIEMNGUYEN"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/GUVI.png" alt="GUVI"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/GYEON.png" alt="GYEON"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/HALINHTHU.png" alt="Hải Linh Thú"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/KOKA.png" alt="KOKA"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                    </div>
+                </div>
+                <div class="marquee-wrapper speed-2 flex flex-nowrap w-fit">
+
+                    <div class="flex flex-nowrap marquee-content">
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/MANULIFE.png" alt="BắpÚ"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/SASIN.png" alt="DIEMNGUYEN" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-6  hover:shadow-lg transition-shadow">
+                            <img src="images/Thai Market.png" alt="GUVI" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/UNIDECOR.png" alt="GYEON" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/GUVI.png" alt="Hải Linh Thú"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/BẮP Ú.png" alt="KOKA" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/DIEMNGUYEN.png" alt="DIEMNGUYEN"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/MANULIFE.png" alt="BắpÚ" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/SASIN.png" alt="DIEMNGUYEN" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/Thai Market.png" alt="GUVI" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/UNIDECOR.png" alt="GYEON" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/GUVI.png" alt="Hải Linh Thú"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/BẮP Ú.png" alt="KOKA" class="h-28 w-auto object-contain">
+                        </div>
+                        <div
+                            class="logo-item shrink-0 w-72 mx-2 flex items-center justify-center p-8  hover:shadow-lg transition-shadow">
+                            <img src="images/DIEMNGUYEN.png" alt="DIEMNGUYEN"
+                                class="h-28 w-auto object-contain brightness-0 invert">
+                        </div>
+                    </div>
+    </section>
+    <!-- Featured Projects -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Dự án tiêu biểu</h2>
+                <p class="text-xl text-gray-600">Những case study thành công đáng tự hào</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://readdy.ai/api/search-image?query=e-commerce%20website%20interface%20on%20laptop%20screen%20showing%20modern%20online%20store%20design%2C%20clean%20product%20layout%2C%20shopping%20cart%20functionality%2C%20professional%20digital%20commerce%20platform&width=400&height=250&seq=project-1&orientation=landscape"
+                        alt="E-commerce Project" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Thương mại điện tử FashionHub</h3>
+                        <p class="text-gray-600 mb-4">Tăng 300% doanh thu online trong 6 tháng thông qua chiến lược
+                            marketing đa kênh và tối ưu hóa trải nghiệm người dùng.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-primary font-semibold">+300% Doanh thu</span>
+                            <button class="text-primary hover:text-blue-600 font-medium">
+                                Xem chi tiết
+                                <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                    <i class="ri-arrow-right-line text-sm"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://readdy.ai/api/search-image?query=social%20media%20marketing%20campaign%20dashboard%20showing%20analytics%20graphs%2C%20engagement%20metrics%2C%20content%20performance%20data%2C%20modern%20digital%20marketing%20interface&width=400&height=250&seq=project-2&orientation=landscape"
+                        alt="Social Media Campaign" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Chiến dịch Social Media TechStart</h3>
+                        <p class="text-gray-600 mb-4">Xây dựng cộng đồng 500K+ followers và tăng 250% tương tác thông
+                            qua nội dung sáng tạo và chiến lược influencer marketing.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-secondary font-semibold">500K+ Followers</span>
+                            <button class="text-primary hover:text-blue-600 font-medium">
+                                Xem chi tiết
+                                <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                    <i class="ri-arrow-right-line text-sm"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://readdy.ai/api/search-image?query=SEO%20analytics%20dashboard%20showing%20search%20rankings%20improvement%2C%20organic%20traffic%20growth%20charts%2C%20keyword%20performance%20metrics%2C%20digital%20marketing%20success&width=400&height=250&seq=project-3&orientation=landscape"
+                        alt="SEO Project" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">SEO & Content Strategy EduPlatform</h3>
+                        <p class="text-gray-600 mb-4">Đưa 50+ từ khóa lên TOP 3 Google và tăng 400% lượng truy cập tự
+                            nhiên thông qua chiến lược SEO và content marketing.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-green-600 font-semibold">+400% Traffic</span>
+                            <button class="text-primary hover:text-blue-600 font-medium">
+                                Xem chi tiết
+                                <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                    <i class="ri-arrow-right-line text-sm"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Profile -->
+    <section class="bg-blue-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-3/5 text-center md:text-left mb-8 md:mb-0">
+                <h3 class="text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+                    <span class="text-blue-600">Hồ sơ năng lực </span> - Start Marketing
+                </h3>
+                <p class="text-lg text-black-300">
+                    Với Start Marketing, mỗi chiến dịch không chỉ là quảng cáo mà là một chiến lược tăng trưởng được
+                    thiết kế riêng cho từng doanh nghiệp. Chúng tôi giúp SMEs chuyển mình mạnh mẽ trong kỷ
+                    nguyên số.
+                </p>
+            </div>
+            <div
+                class="md:w-2/5 flex flex-col sm:flex-row justify-center md:justify-end space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="button-profile flex items-center justify-center">
+                    Hồ sơ năng lực
+                </a>
+
+                <a href="#"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center">
+                    Tư vấn
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Services -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Dịch vụ <span class="text-blue-700">Start Marketing
+                </h2>
+                <p class="text-xl text-white-600">Giải pháp marketing toàn diện cho mọi nhu cầu doanh nghiệp</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <div
+                    class="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-8 card-hover text-center overflow-hidden relative group h-full">
+                    <div class="absolute inset-0 rounded-2xl bg-cover bg-center"
+                        style="background-image: url('images/Templete\ \ 1-01.png'); opacity: 0.75;">
+                    </div>
+
+                    <div class="relative z-10 text-white">
+
+                        <div class="w-24 h-auto flex items-center justify-center  rounded-lg mb-6 mx-auto">
+                            <img src="images//logoblue.png" alt="Vận hành TMĐT" class="h-8 w-8 object-contain">
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-blue-800">Vận hành sàn Thương mại điện tử</h3>
+                        <p class="text-blue-800 mb-6">Từ chiến lược đến vận hành: thiết lập gian hàng, quản lý sản phẩm,
+                            triển khai chương trình thúc đẩy doanh thu, Livestream, xử lý đơn hàng, và tối ưu hiệu quả
+                            tổng thể.</p>
+                        <button class="text-primary hover:text-blue-600 font-medium mx-auto">
+                            Tìm hiểu thêm
+                            <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                <i class="ri-arrow-right-line text-sm"></i>
+                            </div>
+                            <div class="mt-4">
+                                <img src="images/nganh 5.png" alt="Growth Mindset Icon"
+                                    class="w-120 h-auto object-contain">
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-gradient-to-tl from-blue-50/70 to-white/70 border border-blue-200 rounded-2xl p-8 card-hover text-center">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Social Media Marketing</h3>
+                    <p class="text-gray-600 mb-2">Xây dựng hình ảnh thương hiệu trên các nền tảng mạng xã hội: TikTok,
+                        Facebook, Youtube,...</p>
+                    <p class="text-white-600 mb-2">Tư duy chiến lược nội dung, sáng tạo bài đăng, video và chiến dịch
+                        truyền thông đa kênh.</p>
+                    <button class="text-primary hover:text-blue-600 font-medium mx-auto">
+                        Tìm hiểu thêm
+                        <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                            <i class="ri-arrow-right-line text-sm"></i>
+                        </div>
+                        <div class="mt-4">
+                            <img src="images/nganh 4.png" alt="Growth Mindset Icon"
+                                class="w-full h-auto object-contain">
+                    </button>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-gradient-to-tl from-blue-50/70 to-white/70 border border-blue-200 rounded-2xl p-8 card-hover text-center">
+                    <div class="rounded-lg mb-6 mx-auto">
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Booking KOL/KOC</h3>
+                    <p class="text-gray-600 mb-2">Kết nối thương hiệu với hệ thống KOL/KOC đa lĩnh vực.</p>
+                    <p class="text-gray-600 mb-2">Lên kế hoạch và triển khai chiến dịch booking phù hợp với mục tiêu và
+                        ngân sách của doanh nghiệp.</p>
+                    <button class="text-primary hover:text-blue-600 font-medium mx-auto">
+                        Tìm hiểu thêm
+                        <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                            <i class="ri-arrow-right-line text-sm"></i>
+                        </div>
+                        <div class="mt-4">
+                            <img src="images/nganh 1.png" alt="Growth Mindset Icon"
+                                class="w-full h-auto object-contain">
+                    </button>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-gradient-to-tl from-blue-50/70 to-white/70 border border-blue-200 rounded-2xl p-8 card-hover text-center">
+                    <div class="rounded-lg mb-6 mx-auto">
+
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Chăm sóc & Quản lý Website</h3>
+                    <p class="text-gray-600 mb-2">Đảm bảo website hoạt động ổn định, cập nhật nội dung, tối ưu SEO và
+                        UX/UI.</p>
+                    <p class="text-gray-600 mb-2">Giúp doanh nghiệp duy trì hình ảnh chuyên nghiệp và tăng hiệu quả
+                        chuyển đổi.</p>
+                    <button class="text-primary hover:text-blue-600 font-medium mx-auto">
+                        Tìm hiểu thêm
+                        <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                            <i class="ri-arrow-right-line text-sm"></i>
+                        </div>
+                        <div class="mt-4">
+                            <img src="images/nganh 2.png" alt="Growth Mindset Icon"
+                                class="w-full h-auto object-contain">
+                    </button>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-gradient-to-tl from-blue-50/70 to-white/70 border border-blue-200 rounded-2xl p-8 card-hover text-center">
+                    <div class="rounded-lg mb-6 mx-auto">
+
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">Quảng cáo Google Ads</h3>
+                    <p class="text-gray-600 mb-2">Triển khai chiến dịch quảng cáo hiệu quả trên Google.</p>
+                    <p class="text-gray-600 mb-2">Tối ưu ngân sách, nhắm đúng mục tiêu khách hàng và gia tăng doanh thu.
+                    </p>
+                    <button class="text-primary hover:text-blue-600 font-medium mx-auto">
+                        Tìm hiểu thêm
+                        <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                            <i class="ri-arrow-right-line text-sm"></i>
+                        </div>
+                        <div class="mt-4">
+                            <img src="images/nganh 3.png" alt="Growth Mindset Icon"
+                                class="w-full h-auto object-contain">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Quy trình hợp tác</h2>
+                <p class="text-xl text-gray-600">6 bước đơn giản để bắt đầu hành trình thành công</p>
+            </div>
+
+            <div class="w-full">
+                <img src="images/sodo.png" alt="Sơ đồ quy trình" class="w-full object-contain">
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20 text-white overflow-hidden bg-gray-900"
+        style="background-image: url('images/Templete\ \ 1-01.png'); background-size: cover; background-position: center;">
+
+        <div class="absolute inset-0 bg-black opacity-70 z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-white-900">Vì sao bạn nên chọn <span class="text-blue-700">Start
+                        Marketing</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4">
+
+                <div class="lg:col-span-3 grid md:grid-cols-2 gap-4 lg:gap-4">
+                    <div
+                        class="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative group h-full">
+                        <div class="relative z-10 p-4">
+                            <h3 class="text-xl font-bold mb-3 text-gray-900">Ra quyết định với dữ liệu dẫn lối</h3>
+                            <p class="text-gray-600 mb-6 max-w-sm">Tối ưu hiệu suất và chiến lược bằng dữ liệu real-time
+                                từ nền tảng và chiến dịch.</p>
+
+                            <div class="mt-4">
+                                <img src="images/dv3.jpg" alt="Growth Mindset Icon"
+                                    class="w-full h-auto object-contain">
+                            </div>
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 opacity-10 transition-opacity duration-500 group-hover:opacity-15">
+                            <div class="w-24 h-24 flex items-center justify-center bg-blue-100/50 rounded-full">
+                                <i class="ri-hand-coin-line text-4xl text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-100/50 to-transparent opacity-30">
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative group h-full">
+                        <div class="relative z-10 p-4">
+                            <h3 class="text-xl font-bold mb-3 text-gray-900">Am hiểu sâu thị trường & vận hành TMĐT</h3>
+                            <p class="text-gray-600 mb-6 max-w-sm">Am hiểu cơ chế vận hành của TikTok, Meta, Google và
+                                Shopee, giúp tối ưu hiệu suất từng chiến dịch dựa trên dữ liệu hành vi người dùng và xu
+                                hướng thị trường thực tế.</p>
+
+                            <div class="mt-4">
+                                <img src="images/dv2.jpg" alt="Growth Mindset Icon"
+                                    class="w-full h-auto object-contain">
+                            </div>
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 opacity-10 transition-opacity duration-500 group-hover:opacity-15">
+                            <div class="w-24 h-24 flex items-center justify-center bg-blue-100/50 rounded-full">
+                                <i class="ri-target-line text-4xl text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-100/50 to-transparent opacity-30">
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative group h-full">
+                    <div class="relative z-10 p-4">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Đội ngũ chuyên gia thực chiến</h3>
+                        <p class="text-gray-600 mb-6 max-w-sm">Kinh nghiệm triển khai cho nhiều ngành hàng từ F&B, mỹ phẩm, đồ gia dụng, bán lẻ,... đảm bảo chiến lược phù hợp đặc thù thương hiệu.</p>
+
+                        <div class="mt-4">
+                            <img src="images/dv1.jpg" alt="Growth Mindset Icon" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+                    <div
+                        class="absolute bottom-0 right-0 opacity-10 transition-opacity duration-500 group-hover:opacity-15">
+                        <div class="w-24 h-24 flex items-center justify-center bg-green-100/50 rounded-full">
+                            <i class="ri-shield-check-line text-4xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-100/50 to-transparent opacity-30"></div>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative group h-full">
+                    <div class="relative z-10 p-4">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Tư duy tăng trưởng toàn diện</h3>
+                        <p class="text-gray-600 mb-6 max-w-sm">Không chỉ quảng cáo, Start Marketing đồng hành cùng doanh
+                            nghiệp trong xây dựng thương hiệu, vận hành và phát triển dài hạn.</p>
+
+                        <div class="mt-4">
+                            <img src="images/dv4.jpg" alt="Growth Mindset Icon" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+                    <div
+                        class="absolute bottom-0 right-0 opacity-10 transition-opacity duration-500 group-hover:opacity-15">
+                        <div class="w-24 h-24 flex items-center justify-center bg-green-100/50 rounded-full">
+                            <i class="ri-shield-check-line text-4xl text-green-600"></i>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-100/50 to-transparent opacity-30"></div>
+                </div>
+
+                <div
+                    class="lg:col-span-1 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative group h-full">
+                    <div class="relative z-10 p-4">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Minh bạch & đo lường rõ ràng</h3>
+                        <p class="text-gray-600 mb-6 max-w-sm">Báo cáo trực quan, dữ liệu minh bạch giúp đối tác theo
+                            dõi hiệu quả và tối ưu ROI.</p>
+
+                        <div class="mt-4">
+                            <img src="images/dv1.jpg" alt="Growth Mindset Icon" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+                    <div
+                        class="absolute bottom-0 right-0 opacity-10 transition-opacity duration-500 group-hover:opacity-15">
+                        <div class="w-24 h-24 flex items-center justify-center bg-red-100/50 rounded-full">
+                            <i class="ri-global-line text-4xl text-red-600"></i>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-red-100/50 to-transparent opacity-30"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials -->
+    <section class="py-20 section-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Khách hàng nói gì về <span class="text-blue-600">Start
+                        Marketing</span></h2>
+                <p class="text-xl text-gray-600">Những phản hồi tích cực từ các đối tác đã hợp tác</p>
+            </div>
+
+            <div class="relative">
+                <div id="testimonialsContainer"
+                    class="grid grid-flow-col auto-cols-max gap-8 overflow-x-hidden scroll-smooth pb-4">
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-[320px] shrink-0">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                    class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">"Trước khi hợp tác với Start Marketing, gian hàng TikTok Shop của
+                            chúng tôi hoạt động chưa hiệu quả... rất chuyên nghiệp và hiểu SME."</p>
+                        <div class="flex items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Chị Minh An</h4>
+                                <p class="text-sm text-gray-600">Founder – Happy Home</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-[320px] shrink-0">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                    class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">"Start Marketing giúp chúng tôi nhìn thương hiệu bằng một góc khác
+                            – gần gũi và cảm xúc hơn... Tôi đánh giá cao tinh thần đồng hành và sự chỉn chu trong từng
+                            video của team Start."</p>
+                        <div class="flex items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Anh Bảo Khánh</h4>
+                                <p class="text-sm text-gray-600">Giám đốc – Mary Decor</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-[320px] shrink-0">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                    class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">"Tôi chỉ là một shop nhỏ nên ban đầu hơi lo khi hợp tác với
+                            agency, nhưng Start Marketing khiến tôi yên tâm hoàn toàn... Cảm ơn team đã hỗ trợ tận tình,
+                            dễ hiểu và cực kỳ có tâm!"</p>
+                        <div class="flex items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Chị Ngọc Mai</h4>
+                                <p class="text-sm text-gray-600">Chủ shop – In Ảnh Giá Siêu Rẻ</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-[320px] shrink-0">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                    class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">"Start Marketing không chỉ là đối tác mà là một phần của team
+                            chúng tôi. Chiến lược rõ ràng, thực thi nhanh chóng và báo cáo minh bạch là điều tôi đánh
+                            giá cao nhất."</p>
+                        <div class="flex items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Anh Văn Tú</h4>
+                                <p class="text-sm text-gray-600">CEO, Viet Tech</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-[320px] shrink-0">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                    class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-6">"Dịch vụ Content Marketing xuất sắc! Nội dung sản xuất đúng
+                            insight, viral tốt trên các kênh Social Media. Giúp chúng tôi tiết kiệm thời gian và chi phí
+                            đáng kể."</p>
+                        <div class="flex items-center">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Chị Thanh Thảo</h4>
+                                <p class="text-sm text-gray-600">Marketing Manager, Eco Food</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="prevBtn"
+                    class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 w-12 h-12 bg-white border border-gray-300 text-gray-700 rounded-full shadow-lg hover:bg-gray-100 transition-colors hidden lg:flex items-center justify-center z-20"
+                    aria-label="Previous Review">
+                    <i class="ri-arrow-left-s-line text-2xl"></i>
+                </button>
+
+                <button id="nextBtn"
+                    class="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors hidden lg:flex items-center justify-center z-20"
+                    aria-label="Next Review">
+                    <i class="ri-arrow-right-s-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex justify-end mt-12">
+                <a href="/case-studies"
+                    class="bg-primary text-white px-8 py-3 rounded-none font-semibold hover:bg-purple-700 transition-colors whitespace-nowrap">
+                    Xem thêm câu chuyện thành công khác
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- News/Blog -->
+    <section id="news" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Start On Air</h2>
+                <p class="text-xl text-gray-600">Cập nhật những xu hướng mới nhất trong Digital Marketing</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover">
+                    <img src="images/blog poply.png" alt="Digital Marketing Poly"
+                        class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <div class="text-sm text-primary font-semibold mb-2">07 Tháng 10, 2025</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Kiến tập tại Start Marketing – Khi sinh viên
+                            FPT Polytechnic “chạm” vào môi trường thực tế</h3>
+                        <p class="text-gray-600 mb-4">Khám phá những xu hướng marketing số mới nhất sẽ thống trị thị
+                            trường trong năm 2025...</p>
+                        <button class="text-primary hover:text-blue-600 font-medium">
+                            Đọc thêm
+                            <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                <i class="ri-arrow-right-line text-sm"></i>
+                            </div>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover">
+                    <img src="images/blog pv.png" alt="Social Media PV" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <div class="text-sm text-primary font-semibold mb-2">12 Tháng 10, 2025</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Phỏng vấn nhân viên tiêu biểu Start Marketing -
+                            Họ là ai? </h3>
+                        <p class="text-gray-600 mb-4">Hướng dẫn chi tiết cách xây dựng và triển khai chiến lược mạng xã
+                            hội thành công...</p>
+                        <button class="text-primary hover:text-blue-600 font-medium">
+                            Đọc thêm
+                            <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                <i class="ri-arrow-right-line text-sm"></i>
+                            </div>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover">
+                    <img src="images/blog wk.png" alt="Blog WK" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <div class="text-sm text-primary font-semibold mb-2">24 Tháng 09, 2025</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Workshop: Cách làm video nhanh, hiệu quả &
+                            chuyển đổi tốt</h3>
+                        <p class="text-gray-600 mb-4">Tất cả những gì bạn cần biết về SEO để đưa website lên TOP
+                            Google...</p>
+                        <button class="text-primary hover:text-blue-600 font-medium">
+                            Đọc thêm
+                            <div class="w-4 h-4 inline-flex items-center justify-center ml-1">
+                                <i class="ri-arrow-right-line text-sm"></i>
+                            </div>
+                        </button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center mt-12">
+                <button
+                    class="bg-primary text-white px-8 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap">
+                    Xem tất cả bài viết
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 text-white overflow-hidden bg-gray-900"
+        style="background-image: url('images/Templete\ \ 1-02.png'); background-size: cover; background-position: center;">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Sẵn sàng bắt đầu hành trình thành công?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">
+                Liên hệ với chúng tôi ngay hôm nay để được tư vấn miễn phí và nhận báo giá tốt nhất cho dự án của bạn
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                    class="bg-white text-primary px-8 py-4 !rounded-button font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap">
+                    Nhận tư vấn miễn phí
+                </button>
+                <button
+                    class="border-2 border-white text-white px-8 py-4 !rounded-button font-semibold hover:bg-white hover:text-primary transition-colors whitespace-nowrap">
+                    Gọi ngay: 0123 456 789
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-20 section-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-gray-900">Bứt phá doanh số cùng Start Marketing - Đồng hành ngay
+                    hôm nay</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <form class="space-y-6">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Họ tên <span
+                                        class="text-red-600">*</label>
+                                <input type="text" id="name"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                                    placeholder="Nhập họ và tên">
+                            </div>
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Tên Doanh
+                                    Nghiệp</label>
+                                <input type="text" id="company"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                                    placeholder="Nhập tên doanh nghiệp">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email <span
+                                    class="text-red-600">*</label>
+                            <input type="email" id="email"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                                placeholder="Nhập địa chỉ email">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại <span
+                                    class="text-red-600">*</label>
+                            <input type="tel" id="phone"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                                placeholder="Nhập số điện thoại">
+                        </div>
+                        <div>
+                            <label for="service" class="block text-sm font-medium text-gray-700 mb-2">Chọn dịch vụ <span
+                                    class="text-red-600">*</label>
+                            <div class="relative">
+
+                                <select id="service"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-left text-sm bg-white focus:ring-2 focus:ring-primary focus:border-transparent appearance-none pr-10">
+                                    <option value="" disabled selected>Chọn một dịch vụ</option>
+                                    <option value="ecommerce_op">Vận hành sàn Thương mại điện tử</option>
+                                    <option value="social_media">Social Media Marketing</option>
+                                    <option value="booking_kol">Booking KOL/KOC</option>
+                                    <option value="website_care">Chăm sóc & Quản lý Website</option>
+                                    <option value="google_ads">Quảng cáo Google Ads</option>
+                                </select>
+
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="ri-arrow-down-s-line text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Tin nhắn (về vấn
+                                đề mà anh/chị gặp phải...)</label>
+                            <textarea rows="4" id="message"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                                placeholder="Mô tả chi tiết nhu cầu của bạn..."></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-primary text-white py-3 !rounded-button font-semibold hover:bg-blue-600 transition-colors whitespace-nowrap">
+                            Gửi ngay
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg mb-8">
+                        <h3 class="text-xl font-bold mb-6 text-gray-900">Thông tin liên hệ</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-6 h-6 flex items-center justify-center mr-4 mt-1">
+                                    <i class="ri-map-pin-line text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Trụ sở</h4>
+                                    <p class="text-gray-600">484 Cộng Hòa, phường Tân Bình, TP.HCM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-6 h-6 flex items-center justify-center mr-4 mt-1">
+                                    <i class="ri-map-pin-line text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Chi nhánh</h4>
+                                    <p class="text-gray-600">327 Đặng Thúc Vịnh, xã Đông Thạnh, TP.HCM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 flex items-center justify-center mr-4">
+                                    <i class="ri-phone-line text-primary"></i>
+                                </div>
+                                <span class="text-gray-600">0923 798 886</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 flex items-center justify-center mr-4">
+                                    <i class="ri-mail-line text-primary"></i>
+                                </div>
+                                <span class="text-gray-600">sales@startmarketing.vn</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-200 rounded-2xl overflow-hidden h-64"
+                        style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png'); background-size: cover; background-position: center;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <img src="images/logowhite.png" alt="Logo Start Marketing" class="h-8 w-auto mb-4">
+
+                    <p class="text-gray-100 text-sm mb-4">Mã số thuế: 0318014727</p>
+
+                
+                    <div class="flex space-x-4 mb-4">
+                        <div
+                            class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded hover:bg-gray-700 transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </div>
+                        <div
+                            class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded hover:bg-gray-700 transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </div>
+                        <div
+                            class="w-8 h-8 flex items-center justify-center bg-gray-800 rounded hover:bg-gray-700 transition-colors">
+                            <i class="ri-gmail-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-wgray-100 text-sm">sales@startmarketing.vn</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Giới thiệu</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Về Start Marketing</a>
+                        </li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Liên hệ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Chính sách quyền riêng
+                                tư</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Điều khoản dịch vụ</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Giải pháp</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Vận hành sàn TMĐT </a>
+                        </li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Social Media
+                                Marketing</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Booking KOL/KOC</a>
+                        </li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Chăm sóc & Quản lý
+                                Website</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Quảng cáo Google
+                                Ads</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Địa chỉ</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-white mb-2">Trụ sở:</h4>
+                            <p class="text-gray-300 text-sm">484 Cộng Hòa, phường Tân Bình, TP.HCM</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white mb-2">Chi Nhánh:</h4>
+                            <p class="text-gray-300 text-sm">327 Đặng Thúc Vịnh, xã Đông Thạnh, TP.HCM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-100 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Start Marketing</p>
+            </div>
+    </footer>
+
+    <!-- Chat Widgets -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col space-y-3">
+        <div
+            class="w-12 h-12 flex items-center justify-center bg-blue-500 rounded-full shadow-lg hover:bg-blue-600 transition-colors cursor-pointer">
+            <i class="ri-message-3-fill text-white text-xl"></i>
+        </div>
+        <div
+            class="w-12 h-12 flex items-center justify-center bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors cursor-pointer">
+            <i class="ri-chat-3-fill text-white text-xl"></i>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <button id="backToTop"
+        class="fixed bottom-6 left-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-blue-600 z-50">
+        <div class="w-full h-full flex items-center justify-center">
+            <i class="ri-arrow-up-line text-xl"></i>
+        </div>
+    </button>
+
+    <script id="header-scroll">
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.getElementById('header');
+            // ... (các biến khác) ...
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 100) {
+                    // Thêm nền trắng mờ khi cuộn qua 100px
+                    header.classList.add('sticky-header');
+                    // ...
+                } else {
+                    // Xóa nền khi ở đầu trang
+                    header.classList.remove('sticky-header');
+                    // ...
+                }
+            });
+            // ...
+        });
+    </script>
+
+    <script id="counter-animation">
+        document.addEventListener('DOMContentLoaded', function () {
+            const counters = document.querySelectorAll('.counter');
+
+            const animateCounter = (counter) => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const unit = counter.getAttribute('data-unit') || '';
+
+                // Logic cho các mục cần dấu '+' (Năm KN, VP, Dự án, Thương hiệu)
+                // GMV (data-unit="tr") sẽ được xử lý riêng
+                const needsPlus = (target === 3) ||
+                    (target === 60) ||
+                    (target === 100 && !unit);
+
+                // Logic đặc biệt cho GMV (100tr+)
+                const isGMV = target === 100 && unit === 'tr';
+
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+
+                    let displayValue = Math.floor(current);
+                    let suffix = '';
+
+                    if (current >= target) {
+                        displayValue = target;
+                        clearInterval(timer);
+
+                        if (isGMV) {
+                            suffix = unit + '+'; // => 100tr+
+                        } else if (unit) {
+                            suffix = unit; // => 86%
+                        } else if (needsPlus) {
+                            suffix = '+'; // => 3+
+                        }
+                    } else {
+                        // Khi đang đếm:
+                        if (isGMV) {
+                            suffix = unit; // Đếm tới 99tr
+                        } else if (unit) {
+                            suffix = unit; // Đếm tới 85%
+                        } else {
+                            suffix = ''; // Chỉ đếm số
+                        }
+                    }
+
+                    counter.textContent = displayValue + suffix;
+                }, 16);
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        if (!counter.classList.contains('animated')) {
+                            counter.classList.add('animated');
+                            animateCounter(counter);
+                        }
+                    }
+                });
+            });
+
+            counters.forEach(counter => observer.observe(counter));
+        });
+    </script>
+
+    <script id="fade-in-animation">
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = document.querySelectorAll('.animate-fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => observer.observe(el));
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('testimonialsContainer');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (container && prevBtn && nextBtn) {
+                // Lấy chiều rộng của 1 card cộng với khoảng gap
+                const scrollAmount = 320 + 32; // w-[320px] + gap-8 (32px)
+
+                nextBtn.addEventListener('click', () => {
+                    // Cuộn sang phải bằng chiều rộng của 1 card + gap
+                    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    // Cuộn sang trái
+                    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
